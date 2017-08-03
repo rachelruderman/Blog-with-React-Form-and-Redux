@@ -1,10 +1,13 @@
-import {FETCH_POSTS, FETCH_POST} from '../actions'
+import {FETCH_POSTS, FETCH_POST, DELETE_POST} from '../actions'
 import _ from 'lodash'
 //you don't need to specify a file if you're importing from index.js
 //we're gonna default our state to be an object
 //this function receives the previous state and an action
 export default function(state = {}, action){
   switch(action.type){
+    case DELETE_POST:
+    //look at the state object. if it has a key of the post's id, just drop it, just omit it from that object and return a new object that does not contain the id anymore. So, this does not modify the existing state, it returns a new state
+      return _.omit(state, action.payload)
     case FETCH_POST:
     //this says, take my existing state, and add to it
     // const post = action.payload.data
