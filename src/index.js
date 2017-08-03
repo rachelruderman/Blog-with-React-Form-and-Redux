@@ -8,6 +8,7 @@ import promise from 'redux-promise';
 import reducers from './reducers';
 import PostsIndex from './components/posts_index'
 import PostsNew from './components/posts_new'
+import PostsShow from './components/posts_show'
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
@@ -18,6 +19,8 @@ ReactDOM.render(
       <div>
         <Switch>
           <Route path='/posts/new' component={PostsNew} />
+          <Route path='/posts/:id' component={PostsShow}/>
+          {/* //whatever comes after the :, React Router is going to pass it as a prop to our component */}
           <Route path='/' component={PostsIndex} />
         </Switch>
       </div>

@@ -1,6 +1,9 @@
 import React, {Component} from 'react'
 import {Field, reduxForm} from 'redux-form'
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {createPost} from '../actions'
+
 class PostsNew extends Component {
 
   renderField(field){
@@ -27,7 +30,12 @@ class PostsNew extends Component {
   }
 
   onSubmit(values){
-    console.log(values)
+    //if we call push with a route, whenever this line of code is executed, we will instantly be rerouted to this route
+    //however, we only want to attempt to do this navigation after the post has been created. We have to wait for it to be created before we navigate back
+    //now our action creator has this function, and if it calls it, it will redirect us back to /
+    this.props.createPost(values, () =>{
+      this.props.history.push('/')
+    })
   }
 
   render(){
@@ -85,9 +93,13 @@ function validate(values){
 }
 
 //redux form takes a single argument, which is a function
+//this is how we stack multiple connect-like helpers
 export default reduxForm({
   validate,
   form: 'PostsNewForm'
-})(PostsNew)
+})(
+  //this does return a valid react component, so it gets put in as the second set of parentehses for the reduxForm helper
+  connect(null, {createPost})(PostsNew)
+)
 
 //you might want to show multiple forms in an app. By providing a unique string for the form property, we ensure that if we are showing multiple different forms a the smae time, redux form will handle them correctly (won't try to merge state from different forms into a single piece of state)
