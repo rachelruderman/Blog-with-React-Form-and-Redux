@@ -11,7 +11,7 @@ class PostsShow extends Component {
   }
 
   render(){
-    const post = this.props.data
+    const {post} = this.props
     if(!post){
       return <div>Loading...</div>
     }
@@ -35,4 +35,4 @@ function mapStateToProps({posts}, ownProps){
   //now our component is only ever going to receive the one post we care about
 }
 
-export default connect(null, {fetchPost})(PostsShow)
+export default connect(mapStateToProps, {fetchPost})(PostsShow)
