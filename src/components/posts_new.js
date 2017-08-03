@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Field, reduxForm} from 'redux-form'
-
+import {Link} from 'react-router-dom'
 class PostsNew extends Component {
 
   renderField(field){
@@ -55,6 +55,7 @@ class PostsNew extends Component {
           component={this.renderField}
         />
         <button type='submit' className='btn btn-primary'>Submit</button>
+        <Link to='/' className='btn btn-danger'>Cancel</Link>
       </form>
     )
   }
@@ -65,7 +66,11 @@ function validate(values){
   //the errors object starts out as completely empty
   const errors = {}
   //then we look at a property on the values object
-  if(!values.title || values.title.length < 3){
+  if(!values.title){
+  //add a property to the errors object
+    errors.title = 'Enter a title'
+  }
+  if(values.title && values.title.length < 3){
   //add a property to the errors object
     errors.title = 'Enter a title that is at least 3 characters!'
   }
