@@ -5,8 +5,11 @@ class PostsNew extends Component {
 
   renderField(field){
     //the field param contains an eventhandler so it knows what input it's linked to
+    //we can use destructuring to access properties on nested objects as well
+    const {meta : {touched, error} } = field
+    const className = `form-group ${touched && error ? 'has-danger' : ''}`
     return (
-      <div className='form-group'>
+      <div className={className}>
         <label>{field.label}</label>
         <input
           className='form-control'
@@ -14,9 +17,12 @@ class PostsNew extends Component {
           {...field.input}
         //this object contains a bunch of event handlers and props. The ... says ok, this is an object here, and I want all of the dif properties in this object to be communicated as props to the input tag
         />
-        {field.meta.error}
+        <div className='text-help'>
+          {touched ? error : ''}
+        </div>
       </div>
       //this meta.error property is automatically added to the field object from our validate function
+      //by using the ternary expression, the errors won't appear until the user has focused the input and focused away. Trying to submit also automatically puts all fields into the touched state
     )
   }
 
